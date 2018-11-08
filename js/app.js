@@ -2,7 +2,11 @@
 class Budget {
     constructor(budget) {
         this.budget = Number(budget);
-        this.budgetLeft = this.budget;
+        this.leftBudget = this.budget;
+    }
+
+    getBudgetLeft(amount) {
+        return this.leftBudget -= amount;
     }
 }
 
@@ -11,7 +15,7 @@ class HTML {
 
     getBudget(amount) {
         totalBudget.innerHTML = `${amount}`;
-        leftBudget.innerHTML = `${amount}`;
+        budgetLeft.innerHTML = `${amount}`;
     }
 
     printMessage(message, className) {
@@ -37,12 +41,18 @@ class HTML {
         `;
         list.appendChild(li);
     }
+
+    trackExpense(amount) {
+        const amountLeft = budget.getBudgetLeft(amount);
+        console.log(amount);
+        budgetLeft.innerHTML = `${amountLeft}`;
+    }
 }
 
 //Variables
 const expenseForm = document.getElementById("add-expense"),
     totalBudget = document.querySelector('span#total'),
-    leftBudget = document.querySelector('span#left');
+    budgetLeft = document.querySelector('span#left');
 
 let budget, userBudget;
 const html = new HTML();
@@ -74,6 +84,7 @@ function eventListeners() {
             html.printMessage('All the fields are mandatory !', 'alert-danger');
         } else {
             html.displayExpense(expenseName, expenseAmount);
+            html.trackExpense(expenseAmount);
         }
     });
 }
