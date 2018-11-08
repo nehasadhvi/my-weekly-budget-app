@@ -27,7 +27,7 @@ class HTML {
 
         setTimeout(() => {
             document.querySelector('.primary .alert').remove();
-            // expenseForm.reset();
+            expenseForm.reset();
         }, 2000);
     }
 
@@ -46,6 +46,15 @@ class HTML {
         const amountLeft = budget.getBudgetLeft(amount);
         console.log(amount);
         budgetLeft.innerHTML = `${amountLeft}`;
+
+        // Change color of the "amount left" area according to the %
+        if((budget.budget/4) > amountLeft) {
+            budgetLeft.parentElement.parentElement.classList.remove('alert-success', 'alert-warning');
+            budgetLeft.parentElement.parentElement.classList.add('alert-danger');
+        } else if((budget.budget/2) > amountLeft){
+            budgetLeft.parentElement.parentElement.classList.remove('alert-success');
+            budgetLeft.parentElement.parentElement.classList.add('alert-warning');
+        }
     }
 }
 
@@ -85,6 +94,7 @@ function eventListeners() {
         } else {
             html.displayExpense(expenseName, expenseAmount);
             html.trackExpense(expenseAmount);
+            html.printMessage(`${expenseName} added !`, 'alert-success');
         }
     });
 }
